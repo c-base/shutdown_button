@@ -1,0 +1,3 @@
+[submodule "takaratomy"]
+	path = takaratomy
+	url = https://github.com/coon42/takaratomy.git
