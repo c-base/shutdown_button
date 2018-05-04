@@ -15,15 +15,15 @@ from takaratomy.Takaratomy import Takaratomy
 
 class ShutdownButton(msgflo.Participant):
     def __init__(self, role):
-        b = Takaratomy()
-        b.open(0)
+        self.button = Takaratomy()
+        self.button.open(0)
 
         d = {
             'component': 'c-base/shutdown-button',
             'label': 'Shuts down the space station and initiates an evacuation',
             'icon': 'power-off',
             'inports': [
-                { 'id': 'do_not_use', 'type': 'bang' },
+              { 'id': 'do_not_use', 'type': 'boolean' },
             ],
             'outports': [
                 { 'id': 'pressed', 'type': 'boolean' },
@@ -31,10 +31,10 @@ class ShutdownButton(msgflo.Participant):
         }
 
         msgflo.Participant.__init__(self, d, role)
+        gevent.Greenlet.spawn(self.loop)
 
     def process(self, inport, msg):
         self.ack(msg)
-        gevent.Greenlet.spawn(self.loop)
 
     def onButtonPress(self):
         self.send('press', True)
@@ -42,11 +42,10 @@ class ShutdownButton(msgflo.Participant):
     def loop(self):
         while True:
             gevent.sleep(0.1)
-            state = b.get_state()
+            state = self.button.get_state()
 
             if state == 1: # OPEN_BUTTON_PRESSED
               self.onButtonPress()
-
 
 if __name__ == '__main__':
     print('Shutdown Button')
