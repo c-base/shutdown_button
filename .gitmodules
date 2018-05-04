@@ -1,3 +1,3 @@
-[submodule "Takaratomy"]
-	path = Takaratomy
-	url = https://github.com/coon42/Takaratomy.git
+[submodule "takaratomy"]
+	path = takaratomy
+	url = https://github.com/coon42/takaratomy.git
